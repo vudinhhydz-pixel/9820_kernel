@@ -72,7 +72,7 @@ jobs:
       - name: Build kernel
         run: |
           chmod +x build.sh
-          ./build.sh --model ${{ matrix.model }} --ksu y
+          ./build.sh --model ${{ matrix.model }} --ksu n
 
       - name: ccache stats after build
         run: ccache -s

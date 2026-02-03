@@ -12,7 +12,15 @@ jobs:
       fail-fast: false
       matrix:
         model:
+          # - beyond0lte
+          # - beyond1lte
+          # - beyond2lte
           - beyondx
+          # - d1
+          # - d1xks
+          # - d2s
+          # - d2x
+          # - d2xks
 
     steps:
       - name: Checkout repository
@@ -66,10 +74,13 @@ jobs:
           chmod +x build.sh
           ./build.sh --model ${{ matrix.model }} --ksu n
 
+      # 🔒 VERIFY – GIỮ NGUYÊN KIỂU GỐC, CHỈ EXCLUDE FILE HELPER
       - name: Verify no KernelSU in source (strict)
         run: |
           echo "== Checking KernelSU in source tree =="
-          if grep -R "KernelSU" .; then
+          if grep -R "KernelSU" . \
+            --exclude=build.sh \
+            --exclude=build-kernel.yml; then
             echo "KernelSU FOUND ❌"
             exit 1
           else
